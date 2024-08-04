@@ -9,7 +9,7 @@ def calculate_demographic_data(print_data=True):
     race_count = df.unique(pd.Series('race')).count()
 
     # What is the average age of men?
-    average_age_men = round(df[df['sex'] == 'Male', 'age'].sum() / len(df[df[['sex'] == 'Male']), 1)
+    average_age_men = round(df[df['sex'] == 'Male', 'age'].sum() / len(df[df['sex'] == 'Male']), 1)
 
     # What is the percentage of people who have a Bachelor's degree?
     percentage_bachelors = round(len(df[df['education'] == 'Bachelors']) / df.sum(axis = 1) * 100, 1)
