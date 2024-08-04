@@ -9,17 +9,17 @@ def calculate_demographic_data(print_data=True):
     race_count = df['race'].count()
 
     # What is the average age of men?
-    average_age_men = round(df[df['sex'] == 'Male', 'age'].sum() / len(df[df['sex'] == 'Male']), 1)
+    average_age_men = round(df.loc[df['sex'] == 'Male', 'age'].sum() / len(df[df['sex'] == 'Male']), 1)
 
     # What is the percentage of people who have a Bachelor's degree?
-    percentage_bachelors = round(len(df[df['education'] == 'Bachelors']) / df.sum(axis = 1) * 100, 1)
+    percentage_bachelors = round(len(df[df['education'] == 'Bachelors']) / len(df) * 100, 1)
 
     # What percentage of people with advanced education (`Bachelors`, `Masters`, or `Doctorate`) make more than 50K?
     # What percentage of people without advanced education make more than 50K?
 
     # with and without `Bachelors`, `Masters`, or `Doctorate`
     higher_education = len(df[(df['education'] == 'Bachelors') |  (df['education'] == 'Masters') | (df['education'] == 'Doctorate')])
-    lower_education = df.sum(axis = 1) - higher_education
+    lower_education = len(df) - higher_education
 
     # percentage with salary >50K
     higher_education_rich = round(len(df[((df['education'] == 'Bachelors') |  (df['education'] == 'Masters') | (df['education'] == 'Doctorate')) & (df['salary'] == '>50K')]) / higher_education * 100, 1)
