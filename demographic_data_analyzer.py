@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 
 def calculate_demographic_data(print_data=True):
@@ -34,8 +35,20 @@ def calculate_demographic_data(print_data=True):
     rich_percentage =  round(num_min_workers / len(df[df['hours-per-week'] == min_work_hours]) * 100, 1)
 
     # What country has the highest percentage of people that earn >50K?
-    highest_earning_country = df.loc[(df['salary'] == '>50K'), 'native-country'].value_counts().index[0]
-    highest_earning_country_percentage = round(df.loc[(df['salary'] == '>50K'), 'native-country'].value_counts(normalize=True).values[0] * 100, 1)
+    lst_cty = df['native-country'].unique().tolist()
+    lst_pct = []
+    
+    #print(lst_cty)
+    for cty in lst_cty:
+        #print(cty)
+        lst_pct.append(len(df[(df['native-country'] == cty) & (df['salary'] == '>50K')]) / len(df[df['native-country'] == cty]))
+    tmp_df = pd.DataFrame(lst_pct, index = lst_cty)
+    #print(tmp_df)
+    highest_earning_country = tmp_df.idxmax().item()
+    #print(highest_earning_country)
+    tmp_rev = tmp_df.loc[tmp_df.idxmax()].values[0]
+    #print(tmp_rev)
+    highest_earning_country_percentage = np.round(tmp_rev * 100, 1)
 
     # Identify the most popular occupation for those who earn >50K in India.
     top_IN_occupation = df.loc[(df['salary'] == '>50K') & (df['native-country'] == 'India' ), 'occupation'].value_counts().index[0]
